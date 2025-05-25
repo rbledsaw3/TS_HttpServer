@@ -1,0 +1,24 @@
+diff --git a/src/index.ts b/src/index.ts
+index c87e5bd..251d0f1 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -1,6 +1,7 @@
+ import express from "express";
+ 
+ import  { handlerReadiness } from "./api/readiness.js";
++import  { handlerChirpsValidate } from "./api/chirps.js";
+ import  { handlerReset } from "./admin/reset.js";
+ import  { handlerMetrics } from "./admin/metrics.js";
+ import {
+@@ -12,9 +13,11 @@ const app = express();
+ const PORT = 8080;
+ 
+ app.use(middlewareLogResponse);
++app.use(express.json());
+ app.use("/app", middlewareMetricsInc, express.static("./src/app"));
+ 
+ app.get("/api/healthz", handlerReadiness);
++app.post("/api/validate_chirp", handlerChirpsValidate);
+ 
+ app.get("/admin/metrics", handlerMetrics);
+ app.post("/admin/reset", handlerReset);
